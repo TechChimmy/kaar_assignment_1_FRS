@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    
+    :root {
+      --b950: #03080f;
+      --b900: #071020;
+      --b800: #0f2040;
+      --b700: #1b3a6b;
+      --b600: #1e4a85;
+      --b500: #2563b0;
+      --b400: #3b7dd8;
+      --b300: #6aaaf0;
+      --b200: #a8ccf5;
+      --b100: #daeafc;
+      --b50:  #f0f7ff;
+      --b25:  #f8fbff;
+
+      --bg:        #ffffff;
+      --bg2:       var(--b25);
+      --bg3:       var(--b50);
+      --card:      #ffffff;
+      --card2:     var(--b25);
+
+      --accent:    var(--b500);
+      --accent-h:  var(--b400);
+      --accent-d:  var(--b700);
+
+      --text:      var(--b900);
+      --text2:     var(--b700);
+      --text3:     var(--b400);
+
+      --border:    rgba(37,99,176,.14);
+      --border2:   rgba(37,99,176,.28);
+
+      --sh1: 0 1px 4px rgba(37,99,176,.07);
+      --sh2: 0 4px 16px rgba(37,99,176,.1);
+      --sh3: 0 12px 40px rgba(37,99,176,.14);
+      --sh4: 0 24px 64px rgba(37,99,176,.18);
+
+      --r:    12px;
+      --r2:   18px;
+      --nav:  64px;
+      --font: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+
+    header {
+      position: sticky; top: 0; z-index: 100;
+      height: var(--nav);
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--sh1);
+    }
+    nav.ni {
+      max-width: 1240px; margin: auto;
+      height: 100%; padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; font-weight: 800;
+      font-size: 1.15rem; letter-spacing: -.025em; color: var(--text);
+    }
+    .lm {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: var(--accent); color: #fff;
+      display: grid; place-items: center; font-size: .85rem;
+      box-shadow: 0 2px 8px rgba(37,99,176,.35);
+    }
+    .logo-sub { color: var(--b500); }
+
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a {
+      color: var(--text2); text-decoration: none;
+      padding: 7px 15px; border-radius: 8px;
+      font-size: .875rem; font-weight: 600; transition: all .15s;
+    }
+    .nav-links a:hover { background: var(--b50); color: var(--b500); }
+    .nav-links a.active { background: var(--b50); color: var(--b500); }
+
+    .nr { display: flex; align-items: center; gap: 8px; }
+    .ib {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; width: 36px; height: 36px;
+      display: grid; place-items: center;
+      cursor: pointer; color: var(--text2); font-size: .9rem;
+      transition: all .15s;
+    }
+    .ib:hover { background: var(--b100); border-color: var(--border2); color: var(--b500); }
+
+    .hbg { display:none; flex-direction:column; gap:4.5px; cursor:pointer; background:none; border:none; padding:6px; }
+    .hbg span { display:block; width:22px; height:2px; background:var(--text2); border-radius:2px; transition:all .27s; }
+    .hbg.o span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+    .hbg.o span:nth-child(2) { opacity:0; transform:scaleX(0); }
+    .hbg.o span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+
+    .mob-menu {
+      display:none; position:fixed;
+      top:var(--nav); left:0; right:0;
+      background:rgba(255,255,255,.97); backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--border); box-shadow:var(--sh2);
+      padding:12px 20px 20px; z-index:99;
+      flex-direction:column; gap:2px;
+      animation:sd .2s ease;
+    }
+    .mob-menu.o { display:flex; }
+    @keyframes sd { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    .mob-menu a { color:var(--text2); text-decoration:none; padding:11px 14px; border-radius:8px; font-size:.95rem; font-weight:600; transition:all .15s; }
+    .mob-menu a:hover { background:var(--b50); color:var(--b500); }
+
+    .hero {
+      background: linear-gradient(160deg, var(--b25) 0%, #fff 60%);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 32px 72px;
+    }
+    .hero-inner { max-width: 1240px; margin: auto; display:flex; align-items:center; justify-content:space-between; gap:48px; flex-wrap:wrap; }
+    .hero-left { flex:1; min-width:300px; }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px; border-radius: 20px;
+      background: var(--b100); border: 1px solid var(--b200);
+      font-size: .7rem; font-weight: 800; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--b600);
+      margin-bottom: 22px;
+    }
+    .pill-dot { width:6px; height:6px; border-radius:50%; background:var(--b500); animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+
+    .hero h1 {
+      font-size: clamp(2rem,5vw,3.2rem);
+      font-weight: 800; letter-spacing: -.035em; line-height: 1.12;
+      color: var(--b900); max-width: 580px; margin-bottom: 18px;
+    }
+    .hero h1 em { font-style:normal; color:var(--b500); }
+    .hero p { color: var(--text2); font-size: .98rem; max-width:440px; line-height:1.78; margin-bottom:32px; }
+
+    .hero-cta { display:flex; gap:12px; flex-wrap:wrap; }
+    .btn-primary {
+      padding:12px 24px; border-radius:var(--r); font-family:var(--font);
+      font-weight:700; font-size:.9rem; cursor:pointer; border:none;
+      background:var(--accent); color:#fff;
+      box-shadow:0 4px 16px rgba(37,99,176,.35);
+      transition:all .18s; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn-primary:hover { background:var(--accent-h); transform:translateY(-2px); box-shadow:0 8px 24px rgba(37,99,176,.45); }
+    .btn-secondary {
+      padding:12px 24px; border-radius:var(--r); font-family:var(--font);
+      font-weight:700; font-size:.9rem; cursor:pointer;
+      background:#fff; color:var(--b500);
+      border:1.5px solid var(--border2);
+      transition:all .18s; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn-secondary:hover { background:var(--b50); border-color:var(--b300); }
+
+    .hero-stats { display:flex; gap:32px; flex-wrap:wrap; margin-top:40px; padding-top:32px; border-top:1px solid var(--border); }
+    .stat { display:flex; flex-direction:column; gap:2px; }
+    .sn { font-size:1.6rem; font-weight:800; letter-spacing:-.03em; color:var(--b500); }
+    .sl { font-size:.72rem; color:var(--text2); font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+
+    
+    .hero-right { flex-shrink:0; }
+    .hero-card-demo {
+      background:#fff; border:1px solid var(--border2); border-radius:var(--r2);
+      box-shadow:var(--sh3); padding:20px; width:260px;
+    }
+    .demo-row {
+      display:flex; align-items:center; gap:10px; padding:10px 0;
+      border-bottom:1px solid var(--border);
+    }
+    .demo-row:last-child { border-bottom:none; }
+    .demo-av {
+      width:32px; height:32px; border-radius:50%; display:grid; place-items:center;
+      font-size:.8rem; flex-shrink:0; font-weight:700;
+      background:var(--b50); color:var(--b500); border:1px solid var(--b100);
+    }
+    .demo-info { flex:1; }
+    .demo-name { font-size:.82rem; font-weight:700; color:var(--b900); }
+    .demo-course { font-size:.72rem; color:var(--text2); }
+    .demo-badge { font-size:.68rem; font-weight:700; padding:2px 8px; border-radius:10px; background:var(--b50); color:var(--b500); border:1px solid var(--b100); }
+    .demo-header { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:var(--b400); margin-bottom:8px; }
+    .demo-empty { text-align:center; padding:28px 12px; color:var(--b300); font-size:.78rem; font-weight:500; line-height:1.6; }
+    .demo-empty-icon { font-size:1.5rem; margin-bottom:6px; }
+
+    
+    main { max-width:1240px; margin:0 auto; padding:0 32px 100px; }
+    section { margin-bottom:72px; }
+    .sh { margin-bottom:28px; }
+    .se { font-size:.68rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--b400); margin-bottom:5px; }
+    .st { font-size:1.45rem; font-weight:800; letter-spacing:-.022em; color:var(--b900); }
+
+    
+    .cg { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    article.card {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:var(--r2); overflow:hidden;
+      box-shadow:var(--sh1);
+      transition:transform .22s, box-shadow .22s, border-color .22s;
+      animation:fu .5s ease both;
+    }
+    article.card:nth-child(2) { animation-delay:.07s; }
+    article.card:nth-child(3) { animation-delay:.14s; }
+    article.card:hover { transform:translateY(-4px); box-shadow:var(--sh3); border-color:var(--border2); }
+
+    .cb { height:130px; display:grid; place-items:center; }
+    .cb1 { background:linear-gradient(135deg,var(--b50),var(--b100)); }
+    .cb2 { background:linear-gradient(135deg,var(--b100),var(--b200)); }
+    .cb3 { background:linear-gradient(135deg,var(--b50),var(--b100)); }
+    .ci { font-size:2rem; }
+
+    .card-body { padding:18px 22px 22px; }
+    .card-body h3 { font-size:.94rem; font-weight:700; color:var(--b900); margin-bottom:7px; }
+    .card-body p { color:var(--text2); font-size:.84rem; line-height:1.68; margin-bottom:16px; }
+    .btn-ghost {
+      display:inline-flex; align-items:center; gap:5px;
+      padding:7px 14px; border-radius:8px;
+      font-size:.79rem; font-weight:700;
+      background:var(--b50); color:var(--b500);
+      border:1px solid var(--b100); cursor:pointer; text-decoration:none;
+      transition:all .15s;
+    }
+    .btn-ghost::after { content:'→'; transition:transform .15s; }
+    .btn-ghost:hover { background:var(--b500); color:#fff; border-color:var(--b500); }
+    .btn-ghost:hover::after { transform:translateX(3px); }
+
+    
+    .fc {
+      background:#fff; border:1px solid var(--border);
+      border-radius:var(--r2); padding:40px 44px;
+      box-shadow:var(--sh2);
+    }
+    .fg { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+    .fgg { display:flex; flex-direction:column; gap:7px; }
+    .fgg.full { grid-column:1/-1; }
+    label { font-size:.72rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--text2); }
+    input, select {
+      background:var(--b25); border:1.5px solid var(--border);
+      border-radius:var(--r); padding:11px 14px;
+      color:var(--text); font-family:var(--font);
+      font-size:.91rem; font-weight:500;
+      transition:border-color .18s, box-shadow .18s, background .18s;
+      outline:none; width:100%;
+    }
+    input::placeholder { color:var(--b300); font-weight:400; }
+    input:focus, select:focus {
+      border-color:var(--b500); background:#fff;
+      box-shadow:0 0 0 3px rgba(37,99,176,.14);
+    }
+    input.err, select.err { border-color:#d45353; box-shadow:0 0 0 3px rgba(212,83,83,.1); }
+    select option { background:#fff; color:var(--b900); }
+    .emsg { font-size:.73rem; color:#d45353; display:none; font-weight:600; }
+
+    .bts {
+      grid-column:1/-1; padding:13px 28px; border-radius:var(--r);
+      font-family:var(--font); font-weight:800; font-size:.92rem;
+      cursor:pointer; border:none; background:var(--b500); color:#fff;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      box-shadow:0 4px 16px rgba(37,99,176,.35);
+      transition:all .18s;
+    }
+    .bts:hover { background:var(--b400); transform:translateY(-2px); box-shadow:0 8px 24px rgba(37,99,176,.45); }
+    .bts:active { transform:translateY(0); }
+
+    
+    .toolbar-row {
+      display:flex; align-items:center; justify-content:flex-end; gap:10px;
+      margin-bottom:16px; flex-wrap:wrap;
+    }
+    .btn-sm {
+      padding:8px 14px; border-radius:8px; font-family:var(--font);
+      font-size:.78rem; font-weight:700; cursor:pointer;
+      border:1.5px solid var(--border2); background:#fff;
+      color:var(--b500); transition:all .15s; display:inline-flex; align-items:center; gap:6px;
+    }
+    .btn-sm:hover { background:var(--b50); border-color:var(--b300); }
+    .btn-sm.green { border-color:rgba(34,197,94,.35); color:#16a34a; background:rgba(34,197,94,.05); }
+    .btn-sm.green:hover { background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.5); }
+    #csvInput { display:none; }
+
+    
+    #students-section { scroll-margin-top:calc(var(--nav)+16px); }
+    .ttb { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:14px; flex-wrap:wrap; }
+    .sw { position:relative; flex:1; max-width:340px; }
+    .sw::before { content:'⌕'; position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--b300); font-size:1rem; pointer-events:none; }
+    .sw input { padding-left:34px; }
+    .ct { font-size:.74rem; font-weight:700; color:var(--text2); background:var(--b50); border:1px solid var(--border); padding:5px 13px; border-radius:20px; white-space:nowrap; }
+    .tw { border-radius:var(--r); border:1px solid var(--border); overflow:hidden; overflow-x:auto; box-shadow:var(--sh1); }
+    table { width:100%; border-collapse:collapse; background:#fff; min-width:720px; }
+    thead { background:var(--b50); border-bottom:1px solid var(--border); }
+    th { padding:12px 18px; text-align:left; font-size:.67rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:var(--b400); white-space:nowrap; cursor:pointer; user-select:none; }
+    th:hover { color:var(--b500); }
+    th .sort-icon { margin-left:4px; opacity:.4; }
+    th.sorted .sort-icon { opacity:1; color:var(--b500); }
+    td { padding:13px 18px; border-top:1px solid var(--border); font-size:.87rem; color:var(--b900); vertical-align:middle; }
+    tr:hover td { background:var(--b25); }
+    .sn-c { width:44px; font-size:.78rem; color:var(--b300); font-weight:600; }
+    .nm-c { font-weight:700; }
+    .em-c { color:var(--text2); font-size:.82rem; }
+    .badge { display:inline-block; padding:4px 11px; border-radius:20px; font-size:.72rem; font-weight:700; background:var(--b50); color:var(--b600); border:1px solid var(--b100); white-space:nowrap; }
+    .ag-c { font-weight:600; color:var(--b600); }
+    .ac { display:flex; gap:7px; }
+    .bte { padding:6px 12px; border-radius:7px; font-size:.75rem; font-weight:700; cursor:pointer; font-family:var(--font); border:1px solid var(--border2); background:var(--b50); color:var(--b500); transition:all .15s; }
+    .bte:hover { background:var(--b500); color:#fff; border-color:var(--b500); }
+    .btd { padding:6px 12px; border-radius:7px; font-size:.75rem; font-weight:700; cursor:pointer; font-family:var(--font); border:1px solid rgba(212,83,83,.25); background:rgba(212,83,83,.06); color:#d45353; transition:all .15s; }
+    .btd:hover { background:#d45353; color:#fff; border-color:#d45353; }
+    .empty { text-align:center; padding:72px 20px; color:var(--text2); }
+    .empty-icon { width:52px; height:52px; border-radius:14px; background:var(--b50); border:1px solid var(--b100); display:grid; place-items:center; font-size:1.4rem; margin:0 auto 12px; }
+    .empty p { font-size:.9rem; font-weight:500; }
+
+   
+    .analytics {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px;
+      margin-bottom:72px;
+    }
+    .an-card {
+      background:#fff; border:1px solid var(--border); border-radius:var(--r2);
+      padding:20px 22px; box-shadow:var(--sh1);
+      transition:box-shadow .2s, border-color .2s;
+    }
+    .an-card:hover { box-shadow:var(--sh2); border-color:var(--border2); }
+    .an-label { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:var(--b400); margin-bottom:8px; }
+    .an-val { font-size:1.9rem; font-weight:800; letter-spacing:-.03em; color:var(--b500); margin-bottom:4px; line-height:1; }
+    .an-sub { font-size:.76rem; color:var(--text2); font-weight:500; }
+
+
+    .dist-section { background:#fff; border:1px solid var(--border); border-radius:var(--r2); padding:24px 28px; box-shadow:var(--sh1); margin-bottom:72px; }
+    .dist-title { font-size:.9rem; font-weight:800; color:var(--b900); margin-bottom:18px; }
+    .dist-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .dist-name { font-size:.78rem; font-weight:600; color:var(--text2); width:170px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .dist-bar-wrap { flex:1; background:var(--b50); border-radius:4px; height:8px; overflow:hidden; }
+    .dist-bar { height:100%; background:var(--b400); border-radius:4px; transition:width .5s cubic-bezier(.4,0,.2,1); }
+    .dist-count { font-size:.75rem; font-weight:700; color:var(--b500); width:32px; text-align:right; flex-shrink:0; }
+    .dist-empty { font-size:.84rem; color:var(--b300); text-align:center; padding:24px 0; }
+
+    
+    footer { background:var(--b25); border-top:1px solid var(--border); padding:40px 32px; }
+    .fi { max-width:1240px; margin:auto; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:24px; }
+    .fc2 { color:var(--text2); font-size:.82rem; line-height:1.7; }
+    .sl { display:flex; gap:9px; }
+    .sl a { width:36px; height:36px; border-radius:8px; display:grid; place-items:center; background:#fff; border:1px solid var(--border); text-decoration:none; font-size:.88rem; transition:all .17s; box-shadow:var(--sh1); }
+    .sl a:hover { background:var(--b500); border-color:var(--b500); transform:translateY(-2px); box-shadow:0 4px 12px rgba(37,99,176,.35); }
+
+    
+    .toast { position:fixed; bottom:24px; right:24px; z-index:999; padding:12px 18px; border-radius:12px; font-size:.85rem; font-weight:600; display:flex; align-items:center; gap:9px; pointer-events:none; opacity:0; transform:translateY(12px) scale(.97); transition:opacity .25s, transform .25s; max-width:300px; background:#fff; box-shadow:var(--sh3); border:1px solid var(--border2); }
+    .toast.show { opacity:1; transform:translateY(0) scale(1); }
+    .toast.s { border-color:rgba(37,99,176,.3); color:var(--b700); }
+    .toast.e { border-color:rgba(212,83,83,.3); color:#d45353; }
+    .tdot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+    .s .tdot { background:var(--b500); }
+    .e .tdot { background:#d45353; }
+
+    @keyframes fu { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .hero-inner { animation:fu .45s ease both; }
+    .an-card { animation:fu .4s ease both; }
+
+    
+    @media(max-width:900px) { .cg{grid-template-columns:1fr 1fr;} }
+    @media(max-width:720px) {
+      .nav-links{display:none;} .hbg{display:flex;}
+      .cg{grid-template-columns:1fr;}
+      .fg{grid-template-columns:1fr;} .bts{grid-column:1;}
+      .fc{padding:24px 18px;} .hero{padding:52px 20px 44px;}
+      main{padding:0 20px 72px;} footer{padding:28px 20px;}
+      nav.ni{padding:0 18px;} .hero-right{display:none;}
+      .analytics{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:480px) {
+      .hero-stats{gap:20px;} .ttb{flex-direction:column;align-items:stretch;} .sw{max-width:100%;}
+      .analytics{grid-template-columns:1fr;}
+      .toolbar-row{justify-content:flex-start;}
+    }
+  </style>
+</head>
+<body>
+
+
+<header>
+  <nav class="ni">
+    <a href="#" class="logo">
+      <span class="lm">🎓</span>
+      Student<span class="logo-sub">&nbsp;Portal</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#students-section">Students</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nr">
+      <button class="ib" id="themeToggle" title="Toggle theme">🌙</button>
+      <button class="hbg" id="hbg" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<nav class="mob-menu" id="mm">
+  <a href="#">Home</a>
+  <a href="#students-section">Students</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="pill"><span class="pill-dot"></span>Academic Management System</div>
+      <h1>The smarter way to manage <em>student records</em></h1>
+      <p>Register, search, track and export student data — all stored locally in your browser. No server needed.</p>
+      <div class="hero-cta">
+        <a href="#form-section" class="btn-primary">➕ Add Student</a>
+        <a href="#students-section" class="btn-secondary">📋 View Records</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="sn" id="totalCount">0</span><span class="sl">Total Students</span></div>
+        <div class="stat"><span class="sn" id="courseCount">0</span><span class="sl">Courses</span></div>
+        <div class="stat"><span class="sn" id="avgAge">—</span><span class="sl">Average Age</span></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card-demo">
+        <div class="demo-header">Recent Enrollments</div>
+        <div id="recentList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<main>
+
+  <section style="margin-top:56px">
+    <div class="sh">
+      <p class="se">Dashboard</p>
+      <h2 class="st">At a Glance</h2>
+    </div>
+    <div class="analytics" id="analyticsGrid">
+      <div class="an-card"><div class="an-label">Total Students</div><div class="an-val" id="a1">0</div><div class="an-sub">Enrolled records</div></div>
+      <div class="an-card"><div class="an-label">Courses Offered</div><div class="an-val" id="a2">0</div><div class="an-sub">Distinct programmes</div></div>
+      <div class="an-card"><div class="an-label">Average Age</div><div class="an-val" id="a3">—</div><div class="an-sub">Across all students</div></div>
+      <div class="an-card"><div class="an-label">Youngest</div><div class="an-val" id="a4">—</div><div class="an-sub" id="a4s">—</div></div>
+      <div class="an-card"><div class="an-label">Oldest</div><div class="an-val" id="a5">—</div><div class="an-sub" id="a5s">—</div></div>
+    </div>
+
+    <div class="dist-section">
+      <div class="dist-title">📊 Enrolment by Course</div>
+      <div id="distChart"><div class="dist-empty">No data yet. Add students to see the distribution.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh">
+      <p class="se">Platform Features</p>
+      <h2 class="st">Everything You Need</h2>
+    </div>
+    <div class="cg">
+      <article class="card">
+        <div class="cb cb1"><span class="ci">📋</span></div>
+        <div class="card-body">
+          <h3>Smart Registration</h3>
+          <p>Validated form with email format checking and required field enforcement to keep your data clean.</p>
+          <a href="#form-section" class="btn-ghost">Register</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="cb cb2"><span class="ci">🗂️</span></div>
+        <div class="card-body">
+          <h3>Live Directory</h3>
+          <p>Search, sort, edit and delete records instantly. The table updates in real-time as you type.</p>
+          <a href="#students-section" class="btn-ghost">View All</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="cb cb3"><span class="ci">📤</span></div>
+        <div class="card-body">
+          <h3>Import &amp; Export</h3>
+          <p>Export your entire student list to CSV or import records from a spreadsheet in one click.</p>
+          <a href="#students-section" class="btn-ghost">Manage Data</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="form-section">
+    <div class="sh">
+      <p class="se">Registration Form</p>
+      <h2 class="st">Add New Student</h2>
+    </div>
+    <div class="fc">
+      <div class="fg">
+        <div class="fgg">
+          <label for="sName">Student Name</label>
+          <input type="text" id="sName" placeholder="e.g. Arjun Sharma" autocomplete="off" />
+          <span class="emsg" id="nameErr">Please enter the student's full name.</span>
+        </div>
+        <div class="fgg">
+          <label for="sEmail">Email Address</label>
+          <input type="email" id="sEmail" placeholder="e.g. arjun@example.com" autocomplete="off" />
+          <span class="emsg" id="emailErr">Please enter a valid email address.</span>
+        </div>
+        <div class="fgg">
+          <label for="sCourse">Course Enrolled</label>
+          <select id="sCourse">
+            <option value="">— Select a course —</option>
+            <option>Computer Science</option>
+            <option>Information Technology</option>
+            <option>Data Science</option>
+            <option>Artificial Intelligence</option>
+            <option>Electronics Engineering</option>
+            <option>Mechanical Engineering</option>
+            <option>Civil Engineering</option>
+            <option>Business Administration</option>
+          </select>
+          <span class="emsg" id="courseErr">Please select a course.</span>
+        </div>
+        <div class="fgg">
+          <label for="sAge">Age</label>
+          <input type="number" id="sAge" placeholder="e.g. 20" min="10" max="80" />
+          <span class="emsg" id="ageErr">Age must be between 10 and 80.</span>
+        </div>
+        <button class="bts" id="submitBtn" onclick="submitForm()">
+          <span id="sIcon">＋</span><span id="sLabel">Add Student</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="students-section">
+    <div class="sh">
+      <p class="se">Student Records</p>
+      <h2 class="st">Student Directory</h2>
+    </div>
+
+    <div class="toolbar-row">
+      <button class="btn-sm green" onclick="importCSV()">⬆️ Import CSV</button>
+      <input type="file" id="csvInput" accept=".csv" onchange="handleCSVImport(event)" />
+      <button class="btn-sm" onclick="exportCSV()">⬇️ Export CSV</button>
+    </div>
+
+    <div class="ttb">
+      <div class="sw">
+        <input type="text" id="searchInput" placeholder="Search by name, email or course…" oninput="renderTable()" />
+      </div>
+      <span class="ct" id="countBadge">0 students</span>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th class="sn-c">#</th>
+            <th onclick="sortBy('name')" id="th-name">Name <span class="sort-icon">↕</span></th>
+            <th>Email</th>
+            <th onclick="sortBy('course')" id="th-course">Course <span class="sort-icon">↕</span></th>
+            <th onclick="sortBy('age')" id="th-age">Age <span class="sort-icon">↕</span></th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="fi">
+    <div>
+      <a href="#" class="logo" style="display:inline-flex;margin-bottom:10px">
+        <span class="lm">🎓</span>Student<span class="logo-sub">&nbsp;Portal</span>
+      </a>
+      <p class="fc2">© 2026 Student Portal. All rights reserved.<br>Academic Management System v2.0</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+      <p class="fc2" style="max-width:180px">Built for academic excellence</p>
+      <div style="width:1px;height:34px;background:var(--border)"></div>
+      <div class="sl">
+        <a href="#" title="Twitter">🐦</a>
+        <a href="#" title="LinkedIn">💼</a>
+        <a href="#" title="GitHub">🐙</a>
+        <a href="#" title="Email">✉️</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><span class="tdot"></span><span id="toastMsg"></span></div>
+
+<script>
+  const KEY = 'studentPortalV3';
+  let students = [];
+  let sortKey = null, sortAsc = true;
+
+  function load() { try { students = JSON.parse(localStorage.getItem(KEY)) || []; } catch { students = []; } }
+  function save() { localStorage.setItem(KEY, JSON.stringify(students)); }
+
+  let tt;
+  function toast(msg, type='s') {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.className = `toast ${type} show`;
+    clearTimeout(tt);
+    tt = setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function initials(name) {
+    return name.split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase() || '?';
+  }
+
+  function submitForm() {
+    const name   = document.getElementById('sName').value.trim();
+    const email  = document.getElementById('sEmail').value.trim();
+    const course = document.getElementById('sCourse').value;
+    const age    = parseInt(document.getElementById('sAge').value);
+    let ok = true;
+
+    function chk(eid,iid,bad){ document.getElementById(eid).style.display=bad?'block':'none'; document.getElementById(iid).classList.toggle('err',bad); if(bad) ok=false; }
+    chk('nameErr','sName',!name);
+    chk('emailErr','sEmail',!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    chk('courseErr','sCourse',!course);
+    chk('ageErr','sAge',isNaN(age)||age<10||age>80);
+    if (!ok) { toast('Please correct the highlighted fields.','e'); return; }
+
+    const btn = document.getElementById('submitBtn');
+    const ei  = btn.dataset.ei;
+    if (ei !== undefined) {
+      students[+ei] = { name, email, course, age };
+      delete btn.dataset.ei;
+      document.getElementById('sIcon').textContent = '＋';
+      document.getElementById('sLabel').textContent = 'Add Student';
+      toast('Student record updated.');
+    } else {
+      students.push({ name, email, course, age });
+      toast('Student added to the directory.');
+    }
+    save(); clearForm(); renderTable(); updateStats();
+  }
+
+  function clearForm() {
+    ['sName','sEmail','sAge'].forEach(id => { document.getElementById(id).value=''; document.getElementById(id).classList.remove('err'); });
+    document.getElementById('sCourse').value=''; document.getElementById('sCourse').classList.remove('err');
+    ['nameErr','emailErr','courseErr','ageErr'].forEach(id => document.getElementById(id).style.display='none');
+  }
+
+  function del(idx) {
+    if (!confirm('Delete this student record?')) return;
+    students.splice(idx,1); save(); renderTable(); updateStats();
+    toast('Record removed.','e');
+  }
+
+  function edit(idx) {
+    const s = students[idx];
+    document.getElementById('sName').value   = s.name;
+    document.getElementById('sEmail').value  = s.email;
+    document.getElementById('sCourse').value = s.course;
+    document.getElementById('sAge').value    = s.age;
+    const btn = document.getElementById('submitBtn');
+    btn.dataset.ei = idx;
+    document.getElementById('sIcon').textContent  = '✎';
+    document.getElementById('sLabel').textContent = 'Update Student';
+    document.getElementById('form-section').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function sortBy(key) {
+    if (sortKey === key) sortAsc = !sortAsc; else { sortKey=key; sortAsc=true; }
+    ['name','course','age'].forEach(k => {
+      const th = document.getElementById('th-'+k);
+      if (!th) return;
+      th.classList.toggle('sorted', k===key);
+      th.querySelector('.sort-icon').textContent = k===key ? (sortAsc?'↑':'↓') : '↕';
+    });
+    renderTable();
+  }
+
+  function renderTable() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    let list = students.filter(s =>
+      s.name.toLowerCase().includes(q) ||
+      s.email.toLowerCase().includes(q) ||
+      s.course.toLowerCase().includes(q)
+    );
+
+    if (sortKey) {
+      list = [...list].sort((a,b) => {
+        let av = a[sortKey], bv = b[sortKey];
+        if (typeof av === 'string') av = av.toLowerCase(), bv = bv.toLowerCase();
+        return sortAsc ? (av>bv?1:av<bv?-1:0) : (av<bv?1:av>bv?-1:0);
+      });
+    }
+
+    document.getElementById('countBadge').textContent = `${list.length} student${list.length!==1?'s':''}`;
+    const body = document.getElementById('tbody');
+
+    if (!list.length) {
+      body.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">🗂️</div><p>${q?'No students match your search.':'No records yet — add one above.'}</p></div></td></tr>`;
+      return;
+    }
+
+    body.innerHTML = list.map((s,fi) => {
+      const ri = students.indexOf(s);
+      return `<tr>
+        <td class="sn-c">${fi+1}</td>
+        <td class="nm-c">${esc(s.name)}</td>
+        <td class="em-c">${esc(s.email)}</td>
+        <td><span class="badge">${esc(s.course)}</span></td>
+        <td class="ag-c">${s.age}</td>
+        <td><div class="ac">
+          <button class="bte" onclick="edit(${ri})">Edit</button>
+          <button class="btd" onclick="del(${ri})">Delete</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function updateRecent() {
+    const el = document.getElementById('recentList');
+    if (!el) return;
+    if (!students.length) {
+      el.innerHTML = `<div class="demo-empty"><div class="demo-empty-icon">🎒</div>No students enrolled yet.<br>Add one using the form below.</div>`;
+      return;
+    }
+    const recent = students.slice(-3).reverse();
+    el.innerHTML = recent.map(s => {
+      const av = s.name.split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase();
+      return `<div class="demo-row">
+        <div class="demo-av">${esc(av)}</div>
+        <div class="demo-info">
+          <div class="demo-name">${esc(s.name)}</div>
+          <div class="demo-course">${esc(s.course)}</div>
+        </div>
+        <div class="demo-badge">${s.age}</div>
+      </div>`;
+    }).join('');
+  }
+
+  function updateStats() {
+    const n = students.length;
+    document.getElementById('totalCount').textContent = n;
+    document.getElementById('a1').textContent = n;
+    const courses = [...new Set(students.map(s=>s.course).filter(Boolean))];
+    document.getElementById('courseCount').textContent = courses.length;
+    document.getElementById('a2').textContent = courses.length;
+
+    if (n) {
+      const avg = Math.round(students.reduce((a,s)=>a+s.age,0)/n);
+      document.getElementById('avgAge').textContent = avg;
+      document.getElementById('a3').textContent = avg;
+
+      const youngest = students.reduce((a,b)=>a.age<b.age?a:b);
+      const oldest   = students.reduce((a,b)=>a.age>b.age?a:b);
+      document.getElementById('a4').textContent = youngest.age;
+      document.getElementById('a4s').textContent = youngest.name;
+      document.getElementById('a5').textContent = oldest.age;
+      document.getElementById('a5s').textContent = oldest.name;
+    } else {
+      ['a3','a4','a5'].forEach(id => document.getElementById(id).textContent='—');
+      document.getElementById('avgAge').textContent='—';
+      document.getElementById('a4s').textContent='—';
+      document.getElementById('a5s').textContent='—';
+    }
+
+    updateRecent();
+
+    const chart = document.getElementById('distChart');
+    const counts = {};
+    students.forEach(s => { if(s.course) counts[s.course] = (counts[s.course]||0)+1; });
+    const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    if (!entries.length) {
+      chart.innerHTML = '<div class="dist-empty">No data yet. Add students to see the distribution.</div>';
+      return;
+    }
+    const max = entries[0][1];
+    chart.innerHTML = entries.map(([course, count]) => `
+      <div class="dist-row">
+        <div class="dist-name" title="${esc(course)}">${esc(course)}</div>
+        <div class="dist-bar-wrap"><div class="dist-bar" style="width:${(count/max*100).toFixed(1)}%"></div></div>
+        <div class="dist-count">${count}</div>
+      </div>`).join('');
+  }
+
+  function exportCSV() {
+    if (!students.length) { toast('No students to export.','e'); return; }
+    const header = ['Name','Email','Course','Age'];
+    const rows = students.map(s => [s.name, s.email, s.course, s.age].map(v => `"${String(v).replace(/"/g,'""')}"`).join(','));
+    const csv = [header.join(','), ...rows].join('\n');
+    const blob = new Blob([csv], { type:'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'students.csv'; a.click();
+    URL.revokeObjectURL(url);
+    toast(`Exported ${students.length} records to CSV.`);
+  }
+
+  function importCSV() { document.getElementById('csvInput').click(); }
+
+  function handleCSVImport(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const lines = ev.target.result.trim().split('\n');
+      let added = 0, skipped = 0;
+      lines.forEach((line, i) => {
+        if (i === 0 && line.toLowerCase().includes('name')) return;
+        const cols = line.split(',').map(c => c.replace(/^"|"$/g,'').trim());
+        if (cols.length < 4) { skipped++; return; }
+        const [name, email, course, ageStr] = cols;
+        const age = parseInt(ageStr);
+        if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !course || isNaN(age) || age<10||age>80) { skipped++; return; }
+        students.push({ name, email, course, age });
+        added++;
+      });
+      save(); renderTable(); updateStats();
+      toast(`Imported ${added} record${added!==1?'s':''}${skipped?` (${skipped} skipped)`:'.'}`);
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  }
+
+  const hbg=document.getElementById('hbg'), mm=document.getElementById('mm');
+  hbg.addEventListener('click', ()=>{ hbg.classList.toggle('o'); mm.classList.toggle('o'); });
+  mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ hbg.classList.remove('o'); mm.classList.remove('o'); }));
+
+  const tb = document.getElementById('themeToggle');
+  tb.addEventListener('click', () => {
+    const l = document.body.classList.toggle('dark');
+    tb.textContent = l ? '☀️' : '🌙';
+    localStorage.setItem('spT', l?'d':'l');
+  });
+
+  load(); renderTable(); updateStats();
+</script>
+
+<style>
+  body.dark {
+    --b900: #daeafc;
+    --b600: #a8ccf5;
+    --b500: #6aaaf0;
+    --b400: #3b7dd8;
+    --b300: #2563b0;
+    --b200: #1e4a85;
+    --b100: #1b3a6b;
+    --b50:  #122039;
+    --b25:  #0d1a2e;
+
+    --bg:     #07101f;
+    --bg2:    #0d1a2e;
+    --bg3:    #122039;
+    --card:   #0d1a2e;
+    --text:   #daeafc;
+    --text2:  #a8ccf5;
+    --accent: #3b7dd8;
+    --accent-h: #6aaaf0;
+
+    --border:  rgba(59,125,216,.22);
+    --border2: rgba(106,170,240,.32);
+
+    --sh1: 0 2px 8px  rgba(5,13,26,.55);
+    --sh2: 0 6px 24px rgba(5,13,26,.65);
+    --sh3: 0 12px 40px rgba(5,13,26,.75);
+  }
+
+  body.dark { background:#07101f; color:#daeafc; }
+
+  body.dark header { background:rgba(7,16,31,.94); border-color:rgba(59,125,216,.2); }
+  body.dark .logo { color:#daeafc; }
+  body.dark .logo-sub { color:#6aaaf0; }
+  body.dark .nav-links a { color:#a8ccf5; }
+  body.dark .nav-links a:hover { background:#122039; color:#daeafc; }
+  body.dark .nav-links a.active { background:rgba(59,125,216,.18); color:#6aaaf0; }
+  body.dark .ib { background:#122039; border-color:rgba(59,125,216,.22); color:#a8ccf5; }
+  body.dark .ib:hover { background:rgba(59,125,216,.2); color:#6aaaf0; }
+  body.dark .hbg span { background:#a8ccf5; }
+  body.dark .mob-menu { background:rgba(7,16,31,.97); border-color:rgba(59,125,216,.2); }
+  body.dark .mob-menu a { color:#a8ccf5; }
+  body.dark .mob-menu a:hover { background:#122039; color:#daeafc; }
+
+  body.dark .hero { background:linear-gradient(160deg,#0d1a2e 0%,#07101f 60%); border-color:rgba(59,125,216,.2); }
+  body.dark .pill { background:rgba(59,125,216,.18); border-color:rgba(59,125,216,.35); color:#6aaaf0; }
+  body.dark .hero h1 { color:#daeafc; }
+  body.dark .hero h1 em { color:#6aaaf0; }
+  body.dark .hero p { color:#a8ccf5; }
+  body.dark .hero-stats { border-top-color:rgba(59,125,216,.2); }
+  body.dark .sn { color:#6aaaf0; }
+  body.dark .sl { color:#a8ccf5; }
+
+  body.dark .hero-card-demo { background:#0d1a2e; border-color:rgba(59,125,216,.3); }
+  body.dark .demo-header { color:#3b7dd8; }
+  body.dark .demo-name { color:#daeafc; }
+  body.dark .demo-course { color:#a8ccf5; }
+  body.dark .demo-av { background:#122039; color:#6aaaf0; border-color:rgba(59,125,216,.25); }
+  body.dark .demo-badge { background:#122039; color:#6aaaf0; border-color:rgba(59,125,216,.25); }
+  body.dark .demo-row { border-bottom-color:rgba(59,125,216,.15); }
+  body.dark .demo-empty { color:#2563b0; }
+
+  body.dark .btn-primary { background:#2563b0; }
+  body.dark .btn-primary:hover { background:#3b7dd8; }
+  body.dark .btn-secondary { background:#0d1a2e; color:#6aaaf0; border-color:rgba(59,125,216,.35); }
+  body.dark .btn-secondary:hover { background:#122039; }
+
+  body.dark .se { color:#3b7dd8; }
+  body.dark .st { color:#daeafc; }
+  body.dark .sh { color:#daeafc; }
+
+  body.dark article.card { background:#0d1a2e; border-color:rgba(59,125,216,.22); }
+  body.dark article.card:hover { border-color:rgba(59,125,216,.45); }
+  body.dark .cb1 { background:linear-gradient(135deg,#07101f,#0d1a2e); }
+  body.dark .cb2 { background:linear-gradient(135deg,#0d1a2e,#122039); }
+  body.dark .cb3 { background:linear-gradient(135deg,#07101f,#0d1a2e); }
+  body.dark .card-body h3 { color:#daeafc; }
+  body.dark .card-body p { color:#a8ccf5; }
+  body.dark .btn-ghost { background:#122039; color:#6aaaf0; border-color:rgba(59,125,216,.25); }
+  body.dark .btn-ghost:hover { background:#2563b0; color:#fff; border-color:#2563b0; }
+
+  body.dark .fc { background:#0d1a2e; border-color:rgba(59,125,216,.22); }
+  body.dark label { color:#a8ccf5; }
+  body.dark input, body.dark select { background:#122039; border-color:rgba(59,125,216,.28); color:#daeafc; }
+  body.dark input::placeholder { color:#2563b0; }
+  body.dark input:focus, body.dark select:focus { background:#172847; border-color:#3b7dd8; box-shadow:0 0 0 3px rgba(59,125,216,.2); }
+  body.dark input.err, body.dark select.err { border-color:#c0392b; }
+  body.dark select option { background:#0d1a2e; color:#daeafc; }
+  body.dark .emsg { color:#e07070; }
+  body.dark .bts { background:#2563b0; box-shadow:0 4px 16px rgba(37,99,176,.3); }
+  body.dark .bts:hover { background:#3b7dd8; }
+
+  body.dark .btn-sm { background:#0d1a2e; color:#6aaaf0; border-color:rgba(59,125,216,.3); }
+  body.dark .btn-sm:hover { background:#122039; border-color:rgba(59,125,216,.5); }
+  body.dark .btn-sm.green { background:rgba(34,197,94,.07); color:#4ade80; border-color:rgba(34,197,94,.3); }
+  body.dark .btn-sm.green:hover { background:rgba(34,197,94,.15); }
+
+  body.dark .ct { background:#122039; border-color:rgba(59,125,216,.22); color:#a8ccf5; }
+  body.dark .tw { border-color:rgba(59,125,216,.22); }
+  body.dark table { background:#0d1a2e; }
+  body.dark thead { background:rgba(59,125,216,.1); border-bottom-color:rgba(59,125,216,.2); }
+  body.dark th { color:#3b7dd8; }
+  body.dark th:hover { color:#6aaaf0; }
+  body.dark td { color:#daeafc; border-top-color:rgba(59,125,216,.1); }
+  body.dark tr:hover td { background:rgba(59,125,216,.07); }
+  body.dark .sn-c { color:#2563b0; }
+  body.dark .nm-c { color:#daeafc; }
+  body.dark .em-c { color:#a8ccf5; }
+  body.dark .badge { background:#122039; color:#6aaaf0; border-color:rgba(59,125,216,.25); }
+  body.dark .ag-c { color:#a8ccf5; }
+  body.dark .bte { background:#122039; color:#6aaaf0; border-color:rgba(59,125,216,.3); }
+  body.dark .bte:hover { background:#2563b0; color:#fff; border-color:#2563b0; }
+  body.dark .btd { background:rgba(192,57,43,.1); color:#e07070; border-color:rgba(192,57,43,.3); }
+  body.dark .btd:hover { background:#c0392b; color:#fff; }
+  body.dark .empty { color:#a8ccf5; }
+  body.dark .empty-icon { background:#122039; border-color:rgba(59,125,216,.22); }
+
+  body.dark .an-card { background:#0d1a2e; border-color:rgba(59,125,216,.22); }
+  body.dark .an-card:hover { border-color:rgba(59,125,216,.4); }
+  body.dark .an-label { color:#3b7dd8; }
+  body.dark .an-val { color:#6aaaf0; }
+  body.dark .an-sub { color:#a8ccf5; }
+
+  body.dark .dist-section { background:#0d1a2e; border-color:rgba(59,125,216,.22); }
+  body.dark .dist-title { color:#daeafc; }
+  body.dark .dist-name { color:#a8ccf5; }
+  body.dark .dist-bar-wrap { background:#122039; }
+  body.dark .dist-bar { background:#3b7dd8; }
+  body.dark .dist-count { color:#6aaaf0; }
+  body.dark .dist-empty { color:#2563b0; }
+
+  body.dark footer { background:#0d1a2e; border-top-color:rgba(59,125,216,.2); }
+  body.dark .fc2 { color:#a8ccf5; }
+  body.dark .sl a { background:#122039; border-color:rgba(59,125,216,.22); }
+  body.dark .sl a:hover { background:#2563b0; border-color:#2563b0; }
+
+  body.dark .toast { background:#0d1a2e; border-color:rgba(59,125,216,.3); }
+  body.dark .toast.s { color:#6aaaf0; border-color:rgba(59,125,216,.4); }
+  body.dark .toast.e { color:#e07070; border-color:rgba(192,57,43,.35); }
+</style>
+</body>
+</html>
