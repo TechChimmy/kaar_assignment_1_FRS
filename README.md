@@ -16,9 +16,7 @@ Student Portal is a fully responsive, browser-based academic management applicat
 
 ```
 student-portal/
-├── index.html      — HTML structure and semantic markup
-├── styles.css      — All styling including responsive layout and dark mode
-└── script.js       — All application logic and DOM interaction
+├── index.html      — HTML structure and semantic markup, All styling including responsive layout and dark mode, All application logic and DOM interaction
 ```
 
 ---
